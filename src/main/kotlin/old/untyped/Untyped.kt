@@ -1,7 +1,6 @@
-package com.zenmo.timeseries.untyped
+package com.zenmo.timeseries.old.untyped
 
 import java.time.Instant
-import java.time.temporal.TemporalAmount
 
 /**
  * The most basic time series type.

@@ -1,7 +1,7 @@
-package com.zenmo.timeseries
+package com.zenmo.timeseries.old
 
-import com.zenmo.timeseries.untyped.SteppedUntypedTimeSeries
-import com.zenmo.timeseries.untyped.UntypedTimeSeries
+import com.zenmo.timeseries.old.untyped.SteppedUntypedTimeSeries
+import com.zenmo.timeseries.old.untyped.UntypedTimeSeries
 import java.time.Instant
 import java.time.temporal.TemporalAmount
 

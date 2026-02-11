@@ -1,4 +1,4 @@
-package com.zenmo.timeseries.untyped
+package com.zenmo.timeseries.old.untyped
 
 import java.time.Instant
 

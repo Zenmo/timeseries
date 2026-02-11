@@ -1,6 +1,6 @@
 package com.zenmo.timeseries;
 
-import com.zenmo.timeseries.untyped.UntypedTimeSeries;
+import com.zenmo.timeseries.old.untyped.UntypedTimeSeries;
 
 import java.time.DayOfWeek;
 import java.time.Instant;

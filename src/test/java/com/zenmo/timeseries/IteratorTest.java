@@ -1,6 +1,7 @@
 package com.zenmo.timeseries;
 
-import com.zenmo.timeseries.untyped.DoubleArrayBackedTimeSeries;
+import com.zenmo.timeseries.old.KwTimeSeries;
+import com.zenmo.timeseries.old.untyped.DoubleArrayBackedTimeSeries;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;

@@ -7,3 +7,4 @@ Concepts:
   for its start, end and interval
 - Specific interfaces for typed variants of kilowatts, kWh, unitless, etc. 
   (since Java does not have template specialization)
+- iterators to get balls-to-the-walls performance
