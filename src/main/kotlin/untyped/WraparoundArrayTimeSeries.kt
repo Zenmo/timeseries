@@ -6,14 +6,21 @@ import java.time.temporal.TemporalAmount
 
 internal class WraparoundArrayTimeSeries(
     private val timeSeries: ArrayTimeSeries,
-): TimeSeriesAccessor {
+): TimeSeries {
     init {
         if (timeSeries.size() == 0) {
             throw IndexOutOfBoundsException("Can't wraparound empty time series")
         }
     }
 
-    override fun get(intervalStart: Temporal): Double {
+    /**
+     * Writes to the underlying non-wraparound time series.
+     */
+    override operator fun set(intervalStart: Temporal, value: Double) {
+        timeSeries[intervalStart] = value
+    }
+
+    override operator fun get(intervalStart: Temporal): Double {
         return timeSeries.values[getOffset(intervalStart)]
     }
 

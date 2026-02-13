@@ -40,7 +40,7 @@ internal open class ArrayTimeSeries(
      * Raw values.
      */
     internal val values: DoubleArray,
-) : TimeSeriesAccessor {
+) : TimeSeries {
     /**
      * Get the value at the interval starting at [intervalStart] using the step of this data structure.
      */
@@ -56,7 +56,16 @@ internal open class ArrayTimeSeries(
         }
     }
 
-    internal fun getOffset(intervalStart: Temporal): Int {
+    override operator fun set(intervalStart: Temporal, value: Double) {
+        val offset = getOffset(intervalStart)
+        try {
+            values[offset] = value
+        } catch (_: ArrayIndexOutOfBoundsException) {
+            throw IndexOutOfBoundsException("Requested interval starting at $intervalStart is not in the timeseries of $start until ${end}")
+        }
+    }
+
+        internal fun getOffset(intervalStart: Temporal): Int {
         // optimization for Duration
         if (step is Duration) {
             // doesn't work if unaligned

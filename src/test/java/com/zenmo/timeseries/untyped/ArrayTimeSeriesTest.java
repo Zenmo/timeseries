@@ -17,8 +17,8 @@ public class ArrayTimeSeriesTest {
     TimeSeriesBuilder builder = TimeSeries.builder().step(quarterHour).start(start);
 
     @Test
-    public void testEmptyTimeSeries() {
-        var emptyTimeSeries = builder.values(new double[] {}).build();
+    public void testReadEmptyTimeSeries() {
+            var emptyTimeSeries = builder.values(new double[] {}).build();
 
         assertEquals(start, emptyTimeSeries.getEnd());
         var exception = assertThrows(IndexOutOfBoundsException.class, () -> emptyTimeSeries.get(start));
@@ -29,7 +29,7 @@ public class ArrayTimeSeriesTest {
     }
 
     @Test
-    public void testNonEmptyTimeSeries() {
+    public void testReadNonEmptyTimeSeries() {
         var timeSeries = builder
                 .values(new double[] {2.0, 3.0})
                 .build();
@@ -47,7 +47,7 @@ public class ArrayTimeSeriesTest {
     }
 
     @Test
-    public void testMonthlyTimeSeries() {
+    public void testReadMonthlyTimeSeries() {
         var values = DoubleStream.iterate(2.0, (a) -> a + 2.0).limit(12).toArray();
         var month = Period.ofMonths(1);
         var start = this.start.atZone(ZoneId.of("Europe/Amsterdam"));
@@ -67,5 +67,18 @@ public class ArrayTimeSeriesTest {
                 "Requested interval starting at 2026-01-01T00:00+01:00[Europe/Amsterdam] is not in the timeseries of 2025-01-01T00:00+01:00[Europe/Amsterdam] until 2026-01-01T00:00+01:00[Europe/Amsterdam]",
                 exception.getMessage()
         );
+    }
+
+    @Test
+    public void testWrite() {
+        var timeSeries = builder.values(new double[24 * 4]).build();
+        var midday = start.plus(Duration.ofHours(12));
+        timeSeries.set(midday, 3.0);
+
+        assertEquals(3.0, timeSeries.get(midday));
+        assertEquals(0.0, timeSeries.get(midday.minus(quarterHour)));
+        assertEquals(0.0, timeSeries.get(midday.plus(quarterHour)));
+
+        assertThrows(IndexOutOfBoundsException.class, () -> timeSeries.set(start.plus(Duration.ofDays(1)), 4.0));
     }
 }
