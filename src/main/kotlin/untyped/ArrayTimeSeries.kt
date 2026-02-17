@@ -14,7 +14,7 @@ import java.time.temporal.TemporalAmount
  * - It can only be accessed with a step equal to the step of the underlying data structure.
  * - It can only be accessed at intervals which align with the step.
  */
-internal class ArrayTimeSeries(
+internal open class ArrayTimeSeries(
     /**
      * Start of the first interval.
      *
@@ -39,7 +39,7 @@ internal class ArrayTimeSeries(
     /**
      * Raw values.
      */
-    private val values: DoubleArray,
+    internal val values: DoubleArray,
 ) : TimeSeriesAccessor {
     /**
      * Get the value at the interval starting at [intervalStart] using the step of this data structure.
@@ -56,11 +56,11 @@ internal class ArrayTimeSeries(
         }
     }
 
-    private fun getOffset(intervalStart: Temporal): Int {
+    internal fun getOffset(intervalStart: Temporal): Int {
         // optimization for Duration
         if (step is Duration) {
             // doesn't work if unaligned
-            return Duration.between(start, intervalStart).dividedBy(step).toInt()
+            return Duration.between(start, intervalStart).dividedBy(step as Duration).toInt()
         }
 
         // generic case
@@ -69,6 +69,11 @@ internal class ArrayTimeSeries(
         while (Duration.between(current, intervalStart).seconds > 0) {
             current = current.plus(step)
             result++
+        }
+        // The offset can be negative for wrap-around logic
+        while (Duration.between(current, intervalStart).seconds < 0) {
+            current = current.minus(step)
+            result--
         }
         return result
     }
@@ -79,7 +84,7 @@ internal class ArrayTimeSeries(
     override val end: Temporal get() {
         // optimization for Duration
         if (step is Duration) {
-            return start.plus(step.multipliedBy(values.size.toLong()))
+            return start.plus((step as Duration).multipliedBy(values.size.toLong()))
         }
 
         // generic case
@@ -89,6 +94,8 @@ internal class ArrayTimeSeries(
         }
         return result
     }
+
+    fun size() = values.size
 
     fun toBuilder() = TimeSeriesBuilder().start(start).step(step).values(values)
 }
