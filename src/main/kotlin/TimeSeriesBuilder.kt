@@ -1,6 +1,7 @@
 package com.zenmo.timeseries
 
 import com.zenmo.timeseries.untyped.ArrayTimeSeries
+import com.zenmo.timeseries.untyped.TimeSeries
 import com.zenmo.timeseries.untyped.TimeSeriesAccessor
 import com.zenmo.timeseries.untyped.WraparoundArrayTimeSeries
 import java.time.temporal.Temporal
@@ -19,7 +20,7 @@ class TimeSeriesBuilder {
      * Create the TimeSeries.
      * The builder will choose an implementation based on the parameters.
      */
-    fun build(): TimeSeriesAccessor {
+    fun build(): TimeSeries {
         val start = this.start ?: throw IllegalStateException("start must be set")
         val step = this.step ?: throw IllegalStateException("step must be set")
         val values = this.values ?: throw IllegalStateException("values must be set")
