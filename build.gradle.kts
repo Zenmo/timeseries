@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.1.20"
+    kotlin("jvm") version "2.3.10"
 }
 
 group = "com.zenmo"
@@ -17,7 +17,7 @@ tasks.test {
     useJUnitPlatform()
 }
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(17)
 
     compilerOptions {
         compilerOptions.freeCompilerArgs.add("-Xjvm-default=all")
