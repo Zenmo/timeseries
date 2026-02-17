@@ -1,5 +1,7 @@
 package com.zenmo.timeseries
 
+import com.zenmo.timeseries.typed.ElectricityKwhTimeSeries
+import com.zenmo.timeseries.typed.ElectricityTimeSeries
 import com.zenmo.timeseries.untyped.ArrayTimeSeries
 import com.zenmo.timeseries.untyped.TimeSeries
 import com.zenmo.timeseries.untyped.TimeSeriesAccessor
@@ -33,6 +35,8 @@ class TimeSeriesBuilder {
             timeSeries
         }
     }
+
+    fun buildElectricityKwhTimeSeries(): ElectricityTimeSeries = ElectricityKwhTimeSeries(build())
 
     /**
      * Start of the first interval of the [values].
