@@ -104,7 +104,7 @@ internal open class ArrayTimeSeries(
         return result
     }
 
-    fun size() = values.size
+    internal fun size() = values.size
 
     fun toBuilder() = TimeSeriesBuilder().start(start).step(step).values(values)
 }
