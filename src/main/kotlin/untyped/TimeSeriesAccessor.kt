@@ -1,5 +1,6 @@
 package com.zenmo.timeseries.untyped
 
+import com.zenmo.timeseries.TimeSeriesBuilder
 import java.time.temporal.Temporal
 import java.time.temporal.TemporalAmount
 
@@ -29,4 +30,8 @@ interface TimeSeriesAccessor {
      * The end of the last interval.
      */
     val end: Temporal
+
+    fun toBuilder(): TimeSeriesBuilder
+
+    fun convertStep(newStep: TemporalAmount): TimeSeriesAccessor
 }

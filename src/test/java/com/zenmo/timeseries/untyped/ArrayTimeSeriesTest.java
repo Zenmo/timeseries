@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ArrayTimeSeriesTest {
-    Instant start = ZonedDateTime.of(2025, 1, 1, 0, 0, 0, 0, ZoneId.of("Europe/Amsterdam")).toInstant();
+    Instant start = TestUtil.startOf2025;
 
     Duration quarterHour = Duration.ofMinutes(15);
 
@@ -18,7 +18,7 @@ public class ArrayTimeSeriesTest {
 
     @Test
     public void testReadEmptyTimeSeries() {
-            var emptyTimeSeries = builder.values(new double[] {}).build();
+        var emptyTimeSeries = builder.values(new double[]{}).build();
 
         assertEquals(start, emptyTimeSeries.getEnd());
         var exception = assertThrows(IndexOutOfBoundsException.class, () -> emptyTimeSeries.get(start));
@@ -31,7 +31,7 @@ public class ArrayTimeSeriesTest {
     @Test
     public void testReadNonEmptyTimeSeries() {
         var timeSeries = builder
-                .values(new double[] {2.0, 3.0})
+                .values(new double[]{2.0, 3.0})
                 .build();
 
         var end = start.plus(Duration.ofMinutes(30));
