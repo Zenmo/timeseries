@@ -1,8 +1,7 @@
 package com.zenmo.timeseries
 
-import com.zenmo.timeseries.untyped.ArrayTimeSeries
+import com.zenmo.timeseries.untyped.ArrayTimeSeriesImpl
 import com.zenmo.timeseries.untyped.TimeSeries
-import com.zenmo.timeseries.untyped.TimeSeriesAccessor
 import com.zenmo.timeseries.untyped.WraparoundArrayTimeSeries
 import java.time.temporal.Temporal
 import java.time.temporal.TemporalAmount
@@ -25,7 +24,7 @@ class TimeSeriesBuilder {
         val step = this.step ?: throw IllegalStateException("step must be set")
         val values = this.values ?: throw IllegalStateException("values must be set")
 
-        val timeSeries = ArrayTimeSeries(start, step, values)
+        val timeSeries = ArrayTimeSeriesImpl(start, step, values)
 
         return if (wraparound) {
             WraparoundArrayTimeSeries(timeSeries)

@@ -5,7 +5,7 @@ import java.time.temporal.Temporal
 import java.time.temporal.TemporalAmount
 
 internal class WraparoundArrayTimeSeries(
-    private val timeSeries: ArrayTimeSeries,
+    private val timeSeries: ArrayTimeSeriesImpl,
 ): TimeSeries {
     init {
         if (timeSeries.size() == 0) {
@@ -35,4 +35,9 @@ internal class WraparoundArrayTimeSeries(
 
     override val start: Temporal get() = Instant.MIN
     override val end: Temporal get() = Instant.MAX
+
+    override fun toBuilder() = timeSeries.toBuilder().wraparound(true)
+
+    override fun convertStep(newStep: TemporalAmount) =
+        WraparoundArrayTimeSeries(timeSeries.convertStep(newStep))
 }
