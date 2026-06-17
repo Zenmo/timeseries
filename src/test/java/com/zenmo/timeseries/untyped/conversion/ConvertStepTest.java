@@ -30,7 +30,7 @@ public class ConvertStepTest {
 
         var quarterHourlyTimeSeries = hourlyTimeSeries.convertStep(quarterHour);
 
-        assertEquals(8, ((ArrayTimeSeriesImpl) quarterHourlyTimeSeries).size$timeseries());
+        assertEquals(8, ((ArrayTimeSeriesImpl) quarterHourlyTimeSeries).size$com_zenmo_timeseries());
 
         assertEquals(2.0, quarterHourlyTimeSeries.get(start));
         assertEquals(2.0, quarterHourlyTimeSeries.get(start.plus(quarterHour)));
@@ -50,7 +50,7 @@ public class ConvertStepTest {
 
         var hourlyTimeSeries = quarterHourlyTimeSeries.convertStep(hour);
 
-        assertEquals(2, ((ArrayTimeSeriesImpl) hourlyTimeSeries).size$timeseries());
+        assertEquals(2, ((ArrayTimeSeriesImpl) hourlyTimeSeries).size$com_zenmo_timeseries());
 
         assertEquals(3.5, hourlyTimeSeries.get(start));
         assertEquals(7.5, hourlyTimeSeries.get(start.plus(hour)));
@@ -67,7 +67,7 @@ public class ConvertStepTest {
 
         var hourlyTimeSeries = quarterHourlyTimeSeries.convertStep(hour);
 
-        assertEquals(1, ((ArrayTimeSeriesImpl) hourlyTimeSeries).size$timeseries());
+        assertEquals(1, ((ArrayTimeSeriesImpl) hourlyTimeSeries).size$com_zenmo_timeseries());
 
         assertEquals(3.5, hourlyTimeSeries.get(start));
         assertThrows(IndexOutOfBoundsException.class, () -> hourlyTimeSeries.get(start.plus(Duration.ofHours(1))));
@@ -84,7 +84,7 @@ public class ConvertStepTest {
 
         var dailyTimeSeries = monthlyTimeSeries.convertStep(Duration.ofDays(1));
 
-        assertEquals(31, ((ArrayTimeSeriesImpl) dailyTimeSeries).size$timeseries());
+        assertEquals(31, ((ArrayTimeSeriesImpl) dailyTimeSeries).size$com_zenmo_timeseries());
 
         assertEquals(2.0, dailyTimeSeries.get(jan1st));
         assertEquals(2.0, dailyTimeSeries.get(jan1st.plus(Duration.ofDays(14))));
@@ -103,7 +103,8 @@ public class ConvertStepTest {
 
         var dailyTimeSeries = monthlyTimeSeries.convertStep(Duration.ofDays(1));
 
-        assertEquals(28, ((ArrayTimeSeriesImpl) dailyTimeSeries).size$timeseries());
+        assertEquals(28, ((ArrayTimeSeriesImpl) dailyTimeSeries).size$com_zenmo_timeseries());
+
         assertEquals(2.0, dailyTimeSeries.get(feb1st));
         assertEquals(2.0, dailyTimeSeries.get(feb1st.plus(Duration.ofDays(14))));
         assertEquals(2.0, dailyTimeSeries.get(feb1st.plus(Duration.ofDays(27))));

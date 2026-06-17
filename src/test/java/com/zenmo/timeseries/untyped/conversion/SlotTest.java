@@ -1,8 +1,6 @@
 package com.zenmo.timeseries.untyped.conversion;
 
 import com.zenmo.timeseries.untyped.TestUtil;
-import com.zenmo.timeseries.untyped.conversion.DestinationSlot;
-import com.zenmo.timeseries.untyped.conversion.SourceSlot;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
