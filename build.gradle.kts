@@ -1,9 +1,12 @@
+import java.net.URI
+
 plugins {
-    kotlin("jvm") version "2.3.10"
+    kotlin("jvm") version "2.4.0"
+    `maven-publish`
 }
 
 group = "com.zenmo"
-version = "1.0-SNAPSHOT"
+version = "0.0.1"
 
 repositories {
     mavenCentral()
@@ -23,3 +26,22 @@ kotlin {
         compilerOptions.freeCompilerArgs.add("-Xjvm-default=all")
     }
 }
+
+publishing {
+    publications {
+        register<MavenPublication>("gpr") {
+            from(components["java"])
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = URI("https://maven.pkg.github.com/zenmo/timeseries")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+
