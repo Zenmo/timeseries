@@ -1,6 +1,5 @@
 package com.zenmo.timeseries.untyped
 
-import com.zenmo.timeseries.TimeSeriesBuilder
 import com.zenmo.timeseries.untyped.conversion.convertStepImpl
 import java.time.Duration
 import java.time.temporal.Temporal
@@ -15,7 +14,7 @@ import java.time.temporal.TemporalAmount
  * - It can only be accessed with a step equal to the step of the underlying data structure.
  * - It can only be accessed at intervals which align with the step.
  */
-internal class ArrayTimeSeriesImpl(
+internal data class ArrayTimeSeriesImpl(
     /**
      * Start of the first interval.
      *
@@ -41,7 +40,7 @@ internal class ArrayTimeSeriesImpl(
      * Raw values.
      */
     internal val values: DoubleArray,
-) : TimeSeries, ArrayTimeSeries {
+) : ArrayTimeSeries {
     /**
      * Get the value at the interval starting at [intervalStart] using the step of this data structure.
      */
@@ -107,9 +106,15 @@ internal class ArrayTimeSeriesImpl(
 
     internal fun size() = values.size
 
-    override fun toBuilder() = TimeSeriesBuilder().start(start).step(step).values(values)
+    override fun toBuilder() = ArrayTimeSeriesBuilder().start(start).step(step).values(values)
     override fun convertStep(newStep: TemporalAmount): ArrayTimeSeriesImpl =
         convertStepImpl(this, newStep) as ArrayTimeSeriesImpl
+
+    override fun mapValues(transform: (Double) -> Double) = copy(
+        values = DoubleArray(values.size) { i ->
+            transform(values[i])
+        }
+    )
 
     override fun copyValuesArray() = values.copyOf()
 }

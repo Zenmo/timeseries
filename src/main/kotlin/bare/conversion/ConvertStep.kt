@@ -2,7 +2,6 @@ package com.zenmo.timeseries.untyped.conversion
 
 import com.zenmo.timeseries.isAfter
 import com.zenmo.timeseries.untyped.ArrayTimeSeries
-import com.zenmo.timeseries.untyped.TimeSeries
 import java.time.temporal.TemporalAmount
 
 /**
@@ -53,7 +52,7 @@ internal fun convertStepImpl(timeSeries: ArrayTimeSeries, newStep: TemporalAmoun
     return timeSeries.toBuilder()
         .step(newStep)
         .values(derivedValues.toDoubleArray())
-        .build() as ArrayTimeSeries
+        .build()
 }
 
 

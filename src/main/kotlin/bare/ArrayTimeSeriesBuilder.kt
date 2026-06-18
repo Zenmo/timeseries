@@ -1,15 +1,12 @@
-package com.zenmo.timeseries
+package com.zenmo.timeseries.untyped
 
-import com.zenmo.timeseries.untyped.ArrayTimeSeriesImpl
-import com.zenmo.timeseries.untyped.TimeSeries
-import com.zenmo.timeseries.untyped.WraparoundArrayTimeSeries
 import java.time.temporal.Temporal
 import java.time.temporal.TemporalAmount
 
 /**
  * Builder for Java ergonomics.
  */
-class TimeSeriesBuilder {
+class ArrayTimeSeriesBuilder {
     private var start: Temporal? = null
     private var step: TemporalAmount? = null
     private var values: DoubleArray? = null
@@ -19,7 +16,7 @@ class TimeSeriesBuilder {
      * Create the TimeSeries.
      * The builder will choose an implementation based on the parameters.
      */
-    fun build(): TimeSeries {
+    fun build(): ArrayTimeSeries {
         val start = this.start ?: throw IllegalStateException("start must be set")
         val step = this.step ?: throw IllegalStateException("step must be set")
         val values = this.values ?: throw IllegalStateException("values must be set")
@@ -37,7 +34,7 @@ class TimeSeriesBuilder {
      * Start of the first interval of the [values].
      * Must support arithmetic using the [step].
      */
-    fun start(start: Temporal): TimeSeriesBuilder {
+    fun start(start: Temporal): ArrayTimeSeriesBuilder {
         this.start = start
         return this
     }
@@ -46,7 +43,7 @@ class TimeSeriesBuilder {
      * Length of each interval.
      * Must support arithmetic using [start].
      */
-    fun step(step: TemporalAmount): TimeSeriesBuilder {
+    fun step(step: TemporalAmount): ArrayTimeSeriesBuilder {
         this.step = step
         return this
     }
@@ -54,7 +51,7 @@ class TimeSeriesBuilder {
     /**
      * Array of values of each interval.
      */
-    fun values(values: DoubleArray): TimeSeriesBuilder {
+    fun values(values: DoubleArray): ArrayTimeSeriesBuilder {
         this.values = values
         return this
     }
@@ -62,7 +59,7 @@ class TimeSeriesBuilder {
     /**
      * Whether to wrap around when request values after the end or before the start of the time series.
      */
-    fun wraparound(wraparound: Boolean): TimeSeriesBuilder {
+    fun wraparound(wraparound: Boolean): ArrayTimeSeriesBuilder {
         this.wraparound = wraparound
         return this
     }

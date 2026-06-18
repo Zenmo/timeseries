@@ -3,9 +3,9 @@ package com.zenmo.timeseries.untyped.conversion;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.zenmo.timeseries.untyped.ArrayTimeSeries;
 import com.zenmo.timeseries.untyped.ArrayTimeSeriesImpl;
 import com.zenmo.timeseries.untyped.TestUtil;
-import com.zenmo.timeseries.untyped.TimeSeries;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -22,7 +22,7 @@ public class ConvertStepTest {
 
     @Test
     public void testConvertHourlyToQuarterHourly() {
-        var hourlyTimeSeries = TimeSeries.builder()
+        var hourlyTimeSeries = ArrayTimeSeries.builder()
                 .start(start)
                 .step(hour)
                 .values(new double[]{2.0, 3.0})
@@ -42,7 +42,7 @@ public class ConvertStepTest {
 
     @Test
     public void testConvertQuarterHourlyToHourly() {
-        var quarterHourlyTimeSeries = TimeSeries.builder()
+        var quarterHourlyTimeSeries = ArrayTimeSeries.builder()
                 .start(start)
                 .step(quarterHour)
                 .values(new double[]{2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0})
@@ -59,7 +59,7 @@ public class ConvertStepTest {
 
     @Test
     public void testIncompleteSlotIsDiscarded() {
-        var quarterHourlyTimeSeries = TimeSeries.builder()
+        var quarterHourlyTimeSeries = ArrayTimeSeries.builder()
                 .start(start)
                 .step(quarterHour)
                 .values(new double[]{2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0})
@@ -76,7 +76,7 @@ public class ConvertStepTest {
     @Test
     public void testConvertJanuary() {
         var jan1st = start.atZone(ZoneId.of("Europe/Amsterdam"));
-        var monthlyTimeSeries = TimeSeries.builder()
+        var monthlyTimeSeries = ArrayTimeSeries.builder()
                 .start(jan1st)
                 .step(Period.ofMonths(1))
                 .values(new double[]{2.0})
@@ -95,7 +95,7 @@ public class ConvertStepTest {
     public void testConvertFebruary() {
         var feb1st = start.atZone(ZoneId.of("Europe/Amsterdam")).plus(Period.ofMonths(1));
 
-        var monthlyTimeSeries = TimeSeries.builder()
+        var monthlyTimeSeries = ArrayTimeSeries.builder()
                 .start(feb1st)
                 .step(Period.ofMonths(1))
                 .values(new double[]{2.0})
