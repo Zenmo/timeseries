@@ -1,6 +1,5 @@
 package com.zenmo.timeseries.untyped;
 
-import com.zenmo.timeseries.TimeSeriesBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.time.*;
@@ -14,7 +13,7 @@ public class ArrayTimeSeriesTest {
 
     Duration quarterHour = Duration.ofMinutes(15);
 
-    TimeSeriesBuilder builder = TimeSeries.builder().step(quarterHour).start(start);
+    ArrayTimeSeriesBuilder builder = ArrayTimeSeries.builder().step(quarterHour).start(start);
 
     @Test
     public void testReadEmptyTimeSeries() {
@@ -52,7 +51,7 @@ public class ArrayTimeSeriesTest {
         var month = Period.ofMonths(1);
         var start = this.start.atZone(ZoneId.of("Europe/Amsterdam"));
 
-        var timeSeries = TimeSeries.builder()
+        var timeSeries = ArrayTimeSeries.builder()
                 .step(month)
                 .start(start)
                 .values(values)

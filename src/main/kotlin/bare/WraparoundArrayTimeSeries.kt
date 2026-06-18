@@ -4,9 +4,15 @@ import java.time.Instant
 import java.time.temporal.Temporal
 import java.time.temporal.TemporalAmount
 
-internal class WraparoundArrayTimeSeries(
+/**
+ * This a hacky class to work around missing data points at the start or end
+ * due to leap years or time zones.
+ *
+ * Do not use this for a repeating schedule.
+ */
+internal data class WraparoundArrayTimeSeries(
     private val timeSeries: ArrayTimeSeriesImpl,
-): TimeSeries {
+): ArrayTimeSeries, TimeSeriesWriter {
     init {
         if (timeSeries.size() == 0) {
             throw IndexOutOfBoundsException("Can't wraparound empty time series")
@@ -17,7 +23,7 @@ internal class WraparoundArrayTimeSeries(
      * Writes to the underlying non-wraparound time series.
      */
     override operator fun set(intervalStart: Temporal, value: Double) {
-        timeSeries[intervalStart] = value
+        timeSeries.values[getOffset(intervalStart)] = value
     }
 
     override operator fun get(intervalStart: Temporal): Double {
@@ -32,12 +38,18 @@ internal class WraparoundArrayTimeSeries(
     override val step: TemporalAmount
         get() = timeSeries.step
 
-
     override val start: Temporal get() = Instant.MIN
     override val end: Temporal get() = Instant.MAX
 
     override fun toBuilder() = timeSeries.toBuilder().wraparound(true)
 
-    override fun convertStep(newStep: TemporalAmount) =
-        WraparoundArrayTimeSeries(timeSeries.convertStep(newStep))
+    override fun convertStep(newStep: TemporalAmount) = copy(
+        timeSeries = timeSeries.convertStep(newStep)
+    )
+
+    override fun mapValues(transform: (Double) -> Double) = copy(
+        timeSeries = timeSeries.mapValues(transform)
+    )
+
+    override fun copyValuesArray() = timeSeries.values
 }

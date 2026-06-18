@@ -1,13 +1,11 @@
 package com.zenmo.timeseries.untyped;
 
-import com.zenmo.timeseries.TimeSeriesBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.Period;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoField;
 import java.time.temporal.Temporal;
 import java.util.stream.DoubleStream;
 
@@ -16,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class WraparoundTest {
     private final Temporal start = Instant.parse("2023-01-01T00:00:00Z");
 
-    private TimeSeriesBuilder builder() {
-        return TimeSeries.builder()
+    private ArrayTimeSeriesBuilder builder() {
+        return ArrayTimeSeries.builder()
                 .step(Duration.ofMinutes(15))
                 .start(start)
                 .wraparound(true);
@@ -47,7 +45,7 @@ public class WraparoundTest {
     @Test
     void testWraparoundYear() {
         var zonedStart = ZonedDateTime.parse("2023-01-01T00:00:00Z");
-        var timeSeries = TimeSeries.builder()
+        var timeSeries = ArrayTimeSeries.builder()
                 .step(Period.ofMonths(1))
                 .start(zonedStart)
                 .wraparound(true)
